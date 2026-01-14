@@ -1,0 +1,40 @@
+{
+  "name": "wrappercode",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r ts-node/register src/**.spec.ts",
+    "upload": "gulp init && gulp build && gulp upload",
+    "build": "gulp init && gulp build",
+    "init": "gulp init"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@flairlabs/flair-aws-infra": "git+https://InternalAlexaToken:glpat-WWiYIs4r5a7QbLtlBA-CL286MQp1Ojg1NW41Cw.01.121cz5j8d@gitlab.com/FlairLabs/Frameworks/flair-aws-infra.git#extent",
+    "@flairlabs/flair-infra": "git+https://InternalAlexaToken:glpat-WWiYIs4r5a7QbLtlBA-CL286MQp1Ojg1NW41Cw.01.121cz5j8d@gitlab.com/FlairLabs/Frameworks/flair-infra.git#extent",
+    "ask-sdk-core": "^2.14.0",
+    "ask-sdk-express-adapter": "^2.14.0",
+    "ask-sdk-model": "^1.86.0",
+    "aws-sdk": "^2.1257.0",
+    "axios": "^1.2.3",
+    "compromise": "^14.14.4",
+    "lodash": "^4.17.21",
+    "moment-timezone": "^0.5.43",
+    "ordinal": "^1.0.3",
+    "typescript-string-operations": "^1.5.0"
+  },
+  "devDependencies": {
+    "@flairlabs/gulp-utils": "git+https://InternalAlexaToken:glpat-WWiYIs4r5a7QbLtlBA-CL286MQp1Ojg1NW41Cw.01.121cz5j8d@gitlab.com/FlairLabs/Frameworks/gulp-utils.git#latest",
+    "@types/aws-lambda": "^8.10.108",
+    "@types/lodash": "4.14.149",
+    "@types/node": "^18.11.9",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "gulp-zip": "^4.1.0",
+    "ncp": "^2.0.0",
+    "typescript": "^4.9.3"
+  }
+}

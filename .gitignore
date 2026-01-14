@@ -1,0 +1,7 @@
+node_modules/
+dist/
+publish/
+test.js
+testRequestObj.json
+package-lock.json
+authTest.ts
