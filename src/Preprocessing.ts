@@ -55,8 +55,10 @@ export async function preProcess(_event: any) {
     API_ENDPOINT: alexaRequest.context.System.apiEndpoint,
     API_ACCESS_TOKEN: alexaRequest.context.System.apiAccessToken,
     REQUEST_ID: alexaRequest.request.requestId,
-    SUPPORTED_INTERFACES: supportedInterfaces
+    SUPPORTED_INTERFACES: supportedInterfaces,
   }
+
+
   let isDisplayEnabled = supportedInterfaces["Alexa.Presentation.APL"] || supportedInterfaces["Display"] ? true : false
   let intentName = "UNKNOWN"
   let body = {
@@ -141,6 +143,8 @@ export async function preProcess(_event: any) {
         CAUSE: alexaRequest.request.cause || undefined,
         ERROR: alexaRequest.request.error || undefined
       }
+    } else if(intentName == alexaMap.REQUEST_TYPES["Alexa.Presentation.HTML.Message"]){
+      args["message"] = alexaRequest.request.message || {}
     }
 
     if (_.has(alexaRequest, "request")) {
