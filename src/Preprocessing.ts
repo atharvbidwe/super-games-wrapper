@@ -17,7 +17,7 @@ const handler = async (event: any, context: Context): Promise<any> => {
 };
 
 export async function preProcess(_event: any) {
-  console.log("Pre processing...")
+  // console.log("Pre processing...")
   let resp = {
     statusCode: 500,
     payload: {}
@@ -150,6 +150,7 @@ export async function preProcess(_event: any) {
     if (_.has(alexaRequest, "request")) {
       let rawRequest = _.get(alexaRequest, "request")
       args["RAW_REQUEST"] = rawRequest;
+      args["message"] = _.get(rawRequest, "message")
     }
 
     let abTest = _.get(alexaRequest, "context.Experimentation.activeExperiments") || []
@@ -183,6 +184,8 @@ export async function preProcess(_event: any) {
         }
       }
     }
+
+    console.log("ARGS : " + JSON.stringify(args))
     body.ARGS = args
     body.VERB = intentName
 

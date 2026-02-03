@@ -53,37 +53,41 @@ const validateRequest = async (event: any): Promise<AuthResponse> => {
             throw new Error('Invalid request body format');
         }
 
-        // Check if this is a test/mock request (skip verification for testing)
-        const isMockRequest = certUrl?.includes('mock') || signature?.includes('Mock');
-        
-        if (!isMockRequest) {
-            // Verify request signature with string body
-            console.log('STARTING SIGNATURE VERIFICATION');
-            const signatureVerifier = new SkillRequestSignatureVerifier();
-            try {
-                await signatureVerifier.verify(bodyString, headers);
-                console.log('SIGNATURE VERIFICATION SUCCESSFUL');
-            } catch (sigError) {
-                console.error('SIGNATURE VERIFICATION FAILED:', sigError);
-                throw sigError;
-            }
-
-            console.log('STARTING TIMESTAMP VERIFICATION');
-            // The TimestampVerifier expects the raw JSON string of the Alexa request
-            const timestampVerifier = new TimestampVerifier();
-            try {
-                await timestampVerifier.verify(bodyString);
-                console.log('TIMESTAMP VERIFICATION SUCCESSFUL');
-            } catch (timeError) {
-                console.error('TIMESTAMP VERIFICATION FAILED:', timeError);
-                console.log("Request should be within past 150 seconds");
-                throw timeError;
-            }
-        } else {
-            console.log('MOCK REQUEST DETECTED - SKIPPING VERIFICATION FOR TESTING');
+        // Verify request signature with string body
+        // console.log('STARTING SIGNATURE VERIFICATION');
+        const signatureVerifier = new SkillRequestSignatureVerifier();
+        try {
+            await signatureVerifier.verify(bodyString, headers);
+            // console.log('SIGNATURE VERIFICATION SUCCESSFUL');
+        } catch (sigError) {
+            console.error('SIGNATURE VERIFICATION FAILED:', sigError);
+            throw sigError;
         }
 
-        console.log("Both Signature and Timestamp verification successful");
+        // console.log('STARTING TIMESTAMP VERIFICATION');
+        // Check the timestamp in the request
+        const currentTime = new Date().toISOString();
+        const requestTimestamp = requestBody.request?.timestamp;
+
+        // if (requestTimestamp) {
+        //     const timeDiff = (new Date().getTime() - new Date(requestTimestamp).getTime()) / 1000;
+        //     console.log('TIME DIFFERENCE (seconds):', timeDiff);
+        //     console.log('TIMESTAMP TOLERANCE: Usually 150 seconds');
+        // }
+
+        // The TimestampVerifier expects the raw JSON string of the Alexa request
+        // We need to pass the original bodyString, not the parsed object
+        const timestampVerifier = new TimestampVerifier();
+        try {
+            await timestampVerifier.verify(bodyString);
+            // console.log('TIMESTAMP VERIFICATION SUCCESSFUL');
+        } catch (timeError) {
+            console.error('TIMESTAMP VERIFICATION FAILED:', timeError);
+            console.log("Request should be within past 150 seconds")
+            throw timeError;
+        }
+
+        // console.log("Both Signature and Timestamp verification successful");
 
         let resp = {
             pathParameters: event.pathParameters || {},

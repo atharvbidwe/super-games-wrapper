@@ -305,6 +305,12 @@ export async function postProcess(event: any): Promise<any> {
                 }
             }
 
+
+            if (response.DATA.directives && response.DATA.directives.length > 0) {
+                // directives = [...directives, ...response.DATA.directives]
+                directives.push(...response.DATA.directives)
+            }
+
             if (response.ACTION.clearDynamicEntity) {
                 let clearDynamicEntitiesDirective = {
                     type: 'Dialog.UpdateDynamicEntities',
@@ -340,11 +346,6 @@ export async function postProcess(event: any): Promise<any> {
             //         message: response.OBJS.HTMLEvent.message || {}
             //     })
             // }
-
-            if (response.DATA.directives && response.DATA.directives.length > 0) {
-                // directives = [...directives, ...response.DATA.directives]
-                directives.push(...response.DATA.directives)
-            }
 
             if (!_.isEmpty(outputSpeech)) _resp.response["outputSpeech"] = outputSpeech
             if (!_.isEmpty(card)) _resp.response["card"] = card

@@ -10,6 +10,6 @@
         "CACHE_BASE_ADDR": "https://s3.amazonaws.com/voicegamesdata/",
         "PRE_STAGE": "V4",
         "GENERAL_DATA": "general-data",
-        "BUSINESS_LAMBDA": "super-games-skill"
+        "BUSINESS_LAMBDA": "superGamesBusiness"
     }
 }
